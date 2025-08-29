@@ -29,6 +29,15 @@
 
             // Casino
 
+            List <string> casinoBets = new List<string>();
+            casinoBets.Add(new string("Option 1: Doubles"));
+            casinoBets.Add(new string("Option 2: Not Doubles"));
+            casinoBets.Add(new string("Option 3: Even Sum"));
+            casinoBets.Add(new string("Option 4: Odd Sum"));
+            casinoBets.Add(new string("Option 5: Snake Eyes"));
+            casinoBets.Add(new string("Option 6: Sum of 7"));
+            casinoBets.Add(new string("Option 7: Sum of 3"));
+
             //---------------------------
 
             // Strings
@@ -71,6 +80,8 @@
                     while (true)
                     {
                         CreateBox(142, 35, 4, 2);
+                        Console.SetCursorPosition(128 - cash.ToString().Length, 4);
+                        Console.WriteLine(cashText);
                         Console.ReadLine();
                     }
                 }
