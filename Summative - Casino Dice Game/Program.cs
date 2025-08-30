@@ -16,7 +16,7 @@
             // Menu
 
             List<string> instructions = new List<string>();
-            instructions.Add(new string("Welcome to The Devil’s Casino – a place where luck is not just chance, and every roll has a cost. The dealer"));
+            instructions.Add(new string("Welcome to The Devil's Casino – a place where luck is not just chance, and every roll has a cost. The dealer"));
             instructions.Add(new string("smiles, but the cards of fate are marked, and the dice whisper secrets of losses yet to come. Win, and you might"));
             instructions.Add(new string("leave with more than you arrived. Lose, and the house will take... what it's owed. Step inside. The stakes are"));
             instructions.Add(new string("higher than your soul can afford."));
