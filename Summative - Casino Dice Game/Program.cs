@@ -4,7 +4,7 @@
     {
         static void Main(string[] args)
         {
-            double cash = 100;
+            double cash = 10;
             bool done = false;
             string choice = "";
             Console.SetWindowSize(150, 40);
@@ -29,13 +29,13 @@
             // Casino
 
             List <string> casinoBets = new List<string>();
-            casinoBets.Add(new string("Option 1: Doubles"));
-            casinoBets.Add(new string("Option 2: Not Doubles"));
-            casinoBets.Add(new string("Option 3: Even Sum"));
-            casinoBets.Add(new string("Option 4: Odd Sum"));
-            casinoBets.Add(new string("Option 5: Snake Eyes"));
-            casinoBets.Add(new string("Option 6: Sum of 7"));
-            casinoBets.Add(new string("Option 7: Sum of 3"));
+            casinoBets.Add(new string("Option 1: Doubles (2X Bet)"));
+            casinoBets.Add(new string("Option 2: Not Doubles (0.5X Bet)"));
+            casinoBets.Add(new string("Option 3: Even Sum (1X Bet)"));
+            casinoBets.Add(new string("Option 4: Odd Sum (1X Bet)"));
+            casinoBets.Add(new string("Option 5: Snake Eyes (10X Bet)"));
+            casinoBets.Add(new string("Option 6: Sum of 7 (2X Bet)"));
+            casinoBets.Add(new string("Option 7: Sum of 3 (4X Bet)"));
 
             List<string> neutralCasino = new List<string>();
             neutralCasino.Add(new string("The dealer's ready. The dice are waiting."));
@@ -68,7 +68,8 @@
 
             // Casino
 
-
+            string enterBet = "Seven paths, some lead to fortune... others to none. Choose your fate.";
+            string betUnderline = "----------------------------------------------------------------------";
 
             //---------------------------
 
@@ -98,21 +99,37 @@
                 {
                     while (true)
                     {
-                        CreateBox(142, 35, 4, 2);
-                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.Green);
+                        ConsoleColor casinoColor = ConsoleColor.DarkGray;
                         if (cash == 100)
                         {
-                            CustomText(neutralCasino, 8, 4, ConsoleColor.DarkGray);
+                            casinoColor = ConsoleColor.DarkGray;
                         }
                         else if (cash < 100)
                         {
-                            CustomText(losingCasino, 8, 4, ConsoleColor.DarkRed);
+                            casinoColor = ConsoleColor.DarkRed;
                         }
                         else if (cash > 100)
                         {
-                            CustomText(winningCasino, 8, 4, ConsoleColor.Yellow);
+                            casinoColor = ConsoleColor.Yellow;
                         }
-                            Console.ReadLine();
+                        CreateBox(142, 35, 4, 2, casinoColor);
+                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.Green);
+                        if (cash == 100)
+                        {
+                            CustomText(neutralCasino, 8, 4, casinoColor, true);
+                        }
+                        else if (cash < 100)
+                        {
+                            CustomText(losingCasino, 8, 4, casinoColor, true);
+                        }
+                        else if (cash > 100)
+                        {
+                            CustomText(winningCasino, 8, 4, casinoColor, true);
+                        }
+                        CustomText(enterBet, 8, 7, casinoColor);
+                        CustomText(betUnderline, 8, 8, casinoColor);
+                        CustomText(casinoBets, 8, 11, casinoColor, false);
+                        Console.ReadLine();
                     }
                 }
                 else if (choice == "2")
@@ -139,10 +156,11 @@
                 y++;
             }
         }
-        public static void CreateBox(int width, int height, int x, int y)
+        public static void CreateBox(int width, int height, int x, int y, ConsoleColor color)
         {
             for (int i = 0; i <= height; i++)
             {
+                Console.ForegroundColor = color;
                 Console.SetCursorPosition(x, y);
                 for (int j = 0; j <= width; j++)
                 {
@@ -176,6 +194,7 @@
                     }
                 }
             }
+            Console.ResetColor();
         }
         public static void CustomText(string text, int x, int y, ConsoleColor color)
         {
@@ -184,20 +203,30 @@
             Console.WriteLine(text);
             Console.ResetColor();
         }
-        public static void CustomText(List<string> text, int x, int y, ConsoleColor color)
+        public static void CustomText(List<string> text, int x, int y, ConsoleColor color, bool sleep)
         {
             Random generator = new Random();
             Console.SetCursorPosition(x, y);
             Console.ForegroundColor = color;
-            foreach (char c in text[generator.Next(0, text.Count)])
+            if (sleep)
             {
-                Console.Write(c);
-                Thread.Sleep(50);
+                foreach (char c in text[generator.Next(0, text.Count)])
+                {
+                    Console.Write(c);
+                    Thread.Sleep(50);
+                }
             }
-            
+            else
+            {
+                for (int i = 0; i < text.Count; i++)
+                {
+                    Console.SetCursorPosition(x, y);
+                    Console.WriteLine(text[i]);
+                    y += 2;
+                }
+            }
             Console.ResetColor();
         }
-
         public static void IntroText(int y, ConsoleColor color)
         {
             Console.ForegroundColor = color;
@@ -238,7 +267,7 @@
             CentreText(intro, y); y++;
             CentreText(underline, y); y += 2;
             CentreText(instructions, y); y += instructions.Count + 2;
-            CreateBox(100, 20, 25, y); y += 2;
+            CreateBox(100, 20, 25, y, ConsoleColor.White); y += 2;
             Console.SetCursorPosition(30, y); y += 2;
             Console.WriteLine("Doubles:      You win DOUBLE your bet. For example, if you bet $10, you get $20 back.");
             Console.SetCursorPosition(30, y); y += 2;
