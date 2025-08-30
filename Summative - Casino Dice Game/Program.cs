@@ -16,11 +16,10 @@
             // Menu
 
             List<string> instructions = new List<string>();
-            instructions.Add(new string("In this extravagant casino, you must bet on the outcome of the dice of FATE!"));
-            instructions.Add(new string("If you correctly guess the outcome of the two die, you'll win money back depending on how likely the outcome was (see 'How to Play' for more)."));
-            instructions.Add(new string("But if you guess incorrectly, your soul will be sacrificed to the DEVIL!"));
-            instructions.Add(new string("..."));
-            instructions.Add(new string("Just kidding. You'll just lose your bet and be down some cash. Ready to play?"));
+            instructions.Add(new string("Welcome to The Devil’s Casino – a place where luck is not just chance, and every roll has a cost. The dealer"));
+            instructions.Add(new string("smiles, but the cards of fate are marked, and the dice whisper secrets of losses yet to come. Win, and you might"));
+            instructions.Add(new string("leave with more than you arrived. Lose, and the house will take... what it's owed. Step inside. The stakes are"));
+            instructions.Add(new string("higher than your soul can afford."));
 
             List <string> options = new List<string>();
             options.Add(new string("Option 1: Play the Casino"));
@@ -42,11 +41,19 @@
             neutralCasino.Add(new string("The dealer's ready. The dice are waiting."));
             neutralCasino.Add(new string("The air is heavy with chance. Care to tempt fate?"));
             neutralCasino.Add(new string("The dice have no mercy. Shall we begin?"));
+            neutralCasino.Add(new string("The Devil watches, amused by your desperation."));
 
-            List <string> strugglingCasino = new List<string>();
-            strugglingCasino.Add(new string("The dice smell fear. Care to feed them?"));
-            strugglingCasino.Add(new string("You're running out of chips… and chances."));
-            strugglingCasino.Add(new string("Running low? The house loves a desperate player."));
+            List <string> losingCasino = new List<string>();
+            losingCasino.Add(new string("The dice smell fear. Care to feed them?"));
+            losingCasino.Add(new string("You're running out of chips... and chances."));
+            losingCasino.Add(new string("Running low? The house loves a desperate player."));
+            losingCasino.Add(new string("The house collects. It always does."));
+
+            List<string> winningCasino = new List<string>();
+            winningCasino.Add(new string("The dice seem to like you... for now."));
+            winningCasino.Add(new string("You're winning... the house hates that."));
+            winningCasino.Add(new string("You've cheated fate... or has fate chosen to let you?"));
+            winningCasino.Add(new string("The Devil smiles... but not kindly. Fortune favors you -- for now."));
 
             //---------------------------
 
@@ -71,7 +78,7 @@
                 cashText = $"Your cash: {cash.ToString("C")}";
                 Console.Clear();
                 CentreText(introText, y); y += 2;
-                IntroText(y, ConsoleColor.Green); y += 10;    
+                IntroText(y, ConsoleColor.DarkRed); y += 10;    
                 CentreText(cashText, y); y++;
                 CentreText(underline, y); y += 2;
                 CentreText(instructions, y); y += instructions.Count + 1;
@@ -92,8 +99,20 @@
                     while (true)
                     {
                         CreateBox(142, 35, 4, 2);
-                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.DarkGreen);
-                        Console.ReadLine();
+                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.Green);
+                        if (cash == 100)
+                        {
+                            CustomText(neutralCasino, 8, 4, ConsoleColor.DarkGray);
+                        }
+                        else if (cash < 100)
+                        {
+                            CustomText(losingCasino, 8, 4, ConsoleColor.DarkRed);
+                        }
+                        else if (cash > 100)
+                        {
+                            CustomText(winningCasino, 8, 4, ConsoleColor.Yellow);
+                        }
+                            Console.ReadLine();
                     }
                 }
                 else if (choice == "2")
@@ -165,25 +184,39 @@
             Console.WriteLine(text);
             Console.ResetColor();
         }
+        public static void CustomText(List<string> text, int x, int y, ConsoleColor color)
+        {
+            Random generator = new Random();
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            foreach (char c in text[generator.Next(0, text.Count)])
+            {
+                Console.Write(c);
+                Thread.Sleep(50);
+            }
+            
+            Console.ResetColor();
+        }
+
         public static void IntroText(int y, ConsoleColor color)
         {
             Console.ForegroundColor = color;
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"  /$$$$$$   /$$$$$$  /$$$$$$$  /$$   /$$ /$$$$$$ /$$$$$$$$  /$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$  /$$");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@" /$$__  $$ /$$__  $$| $$__  $$| $$$ | $$|_  $$_/| $$_____/ /$$__  $$       /$$__  $$ /$$__  $$ /$$__  $$|_  $$_/| $$$ | $$ /$$__  $$| $$");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"| $$  \__/| $$  \ $$| $$  \ $$| $$$$| $$  | $$  | $$      | $$  \__/      | $$  \__/| $$  \ $$| $$  \__/  | $$  | $$$$| $$| $$  \ $$| $$");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"| $$      | $$  | $$| $$$$$$$/| $$ $$ $$  | $$  | $$$$$   |  $$$$$$       | $$      | $$$$$$$$|  $$$$$$   | $$  | $$ $$ $$| $$  | $$| $$");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"| $$      | $$  | $$| $$__  $$| $$  $$$$  | $$  | $$__/    \____  $$      | $$      | $$__  $$ \____  $$  | $$  | $$  $$$$| $$  | $$|__/");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"| $$    $$| $$  | $$| $$  \ $$| $$\  $$$  | $$  | $$       /$$  \ $$      | $$    $$| $$  | $$ /$$  \ $$  | $$  | $$\  $$$| $$  | $$    ");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@"|  $$$$$$/|  $$$$$$/| $$  | $$| $$ \  $$ /$$$$$$| $$$$$$$$|  $$$$$$/      |  $$$$$$/| $$  | $$|  $$$$$$/ /$$$$$$| $$ \  $$|  $$$$$$/ /$$");
-            Console.SetCursorPosition(7, y); y++;
-            Console.WriteLine(@" \______/  \______/ |__/  |__/|__/  \__/|______/|________/ \______/        \______/ |__/  |__/ \______/ |______/|__/  \__/ \______/ |__/");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@" /$$$$$$$  /$$$$$$$$ /$$    /$$ /$$$$$$ /$$ /$$    /$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$  /$$");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$__  $$| $$_____/| $$   | $$|_  $$_/| $$| $/   /$$__  $$       /$$__  $$ /$$__  $$ /$$__  $$|_  $$_/| $$$ | $$ /$$__  $$| $$");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$  \ $$| $$      | $$   | $$  | $$  | $$|_/   | $$  \__/      | $$  \__/| $$  \ $$| $$  \__/  | $$  | $$$$| $$| $$  \ $$| $$");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$  | $$| $$$$$   |  $$ / $$/  | $$  | $$      |  $$$$$$       | $$      | $$$$$$$$|  $$$$$$   | $$  | $$ $$ $$| $$  | $$| $$");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$  | $$| $$__/    \  $$ $$/   | $$  | $$       \____  $$      | $$      | $$__  $$ \____  $$  | $$  | $$  $$$$| $$  | $$|__/");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$  | $$| $$        \  $$$/    | $$  | $$       /$$  \ $$      | $$    $$| $$  | $$ /$$  \ $$  | $$  | $$\  $$$| $$  | $$    ");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"| $$$$$$$/| $$$$$$$$   \  $/    /$$$$$$| $$$$$$$$|  $$$$$$/      |  $$$$$$/| $$  | $$|  $$$$$$/ /$$$$$$| $$ \  $$|  $$$$$$/ /$$");
+            Console.SetCursorPosition(12, y); y++;
+            Console.WriteLine(@"|_______/ |________/    \_/    |______/|________/ \______/        \______/ |__/  |__/ \______/ |______/|__/  \__/ \______/ |__/");
             Console.ResetColor();
         }
         public static void Rules()
