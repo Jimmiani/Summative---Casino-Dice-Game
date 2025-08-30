@@ -38,6 +38,16 @@
             casinoBets.Add(new string("Option 6: Sum of 7"));
             casinoBets.Add(new string("Option 7: Sum of 3"));
 
+            List<string> neutralCasino = new List<string>();
+            neutralCasino.Add(new string("The dealer's ready. The dice are waiting."));
+            neutralCasino.Add(new string("The air is heavy with chance. Care to tempt fate?"));
+            neutralCasino.Add(new string("The dice have no mercy. Shall we begin?"));
+
+            List <string> strugglingCasino = new List<string>();
+            strugglingCasino.Add(new string("The dice smell fear. Care to feed them?"));
+            strugglingCasino.Add(new string("You're running out of chips… and chances."));
+            strugglingCasino.Add(new string("Running low? The house loves a desperate player."));
+
             //---------------------------
 
             // Strings
@@ -50,6 +60,8 @@
             string underline = "----------------------------";
 
             // Casino
+
+
 
             //---------------------------
 
@@ -80,8 +92,7 @@
                     while (true)
                     {
                         CreateBox(142, 35, 4, 2);
-                        Console.SetCursorPosition(128 - cash.ToString().Length, 4);
-                        Console.WriteLine(cashText);
+                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.DarkGreen);
                         Console.ReadLine();
                     }
                 }
@@ -146,6 +157,13 @@
                     }
                 }
             }
+        }
+        public static void CustomText(string text, int x, int y, ConsoleColor color)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            Console.WriteLine(text);
+            Console.ResetColor();
         }
         public static void IntroText(int y, ConsoleColor color)
         {
