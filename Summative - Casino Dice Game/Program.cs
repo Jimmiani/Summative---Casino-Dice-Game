@@ -6,8 +6,8 @@ namespace Summative___Casino_Dice_Game
     {
         static void Main(string[] args)
         {
-            double cash = 10, betAmount = 0;
-            bool done = false;
+            double cash = 100000, betAmount = 0;
+            bool done = false, win = false;
             string choice = "";
             Die d1 = new Die(6);
             Die d2 = new Die(6);
@@ -127,7 +127,7 @@ namespace Summative___Casino_Dice_Game
                             casinoColor = ConsoleColor.Yellow;
                         }
                         CreateBox(142, 35, 4, 2, casinoColor);
-                        CustomText(cashText, 128 - cash.ToString().Length, y, ConsoleColor.Green);
+                        CustomText(cashText, 143 - cashText.Length, y, ConsoleColor.Green);
                         if (cash == 100)
                         {
                             CustomText(neutralCasino, 8, y, casinoColor, true);
@@ -205,6 +205,11 @@ namespace Summative___Casino_Dice_Game
                         Console.CursorVisible = false;
                         y += 3;
                         Console.ResetColor();
+                        Console.SetCursorPosition(120, 4);
+                        Console.Write(new string(' ', 23));
+                        cash -= betAmount;
+                        cashText = $"Your cash: {cash.ToString("C")}";
+                        CustomText(cashText, 143 - cashText.Length, 4, ConsoleColor.Green);
                         CustomText(afterBet1, 8, y, casinoColor, 45); y++;
                         CustomText(afterBet2, 8, y, casinoColor, 45);
                         Thread.Sleep(700);
@@ -213,8 +218,22 @@ namespace Summative___Casino_Dice_Game
                         d1.DrawRoll(100, 13, casinoColor, 300);
                         Thread.Sleep(500);
                         d2.DrawRoll(114, 13, casinoColor, 300);
-                        //LosingDice(100, 13, 500, d1, d2);
-                        WinningDice(100, 13, 140, d1, d2);
+                        win = CheckBet(d1, d2, choice);
+                        if (win)
+                        {
+                            WinningDice(100, 13, 140, d1, d2);
+                            Console.SetCursorPosition(120, 4);
+                            Console.Write(new string(' ', 23));
+                            cash = CalculateMoney(choice, betAmount);
+                            cashText = $"Your cash: {cash.ToString("C")}";
+                            CustomText(cashText, 143 - cashText.Length, 4, ConsoleColor.Green);
+                        }
+                        else
+                        {
+                            LosingDice(100, 13, 500, d1, d2);
+                        }
+                        
+                        
                         Console.ReadLine();
                     }
                 }
@@ -226,6 +245,41 @@ namespace Summative___Casino_Dice_Game
                 {
                     done = true;
                 }
+            }
+        }
+        public static double CalculateMoney(string choice, double bet)
+        {
+            if (choice == "1")
+            {
+                return bet + (bet * 2);
+            }
+            else if (choice == "2")
+            {
+                return bet + (bet * 0.5);
+            }
+            else if (choice == "3")
+            {
+                return 2 * bet;
+            }
+            else if (choice == "4")
+            {
+                return 2 * bet;
+            }
+            else if (choice == "5")
+            {
+                return bet + (bet * 10);
+            }
+            else if (choice == "6")
+            {
+                return bet + (bet * 2);
+            }
+            else if (choice == "7")
+            {
+                return bet + (bet * 7);
+            }
+            else
+            {
+                return 0;
             }
         }
         public static void CentreText(string text, int y)
@@ -240,6 +294,41 @@ namespace Summative___Casino_Dice_Game
                 Console.SetCursorPosition((Console.WindowWidth - text[i].Length) / 2, y);
                 Console.WriteLine(text[i]);
                 y++;
+            }
+        }
+        public static bool CheckBet(Die d1, Die d2, string choice)
+        {
+            if (choice == "1" && d1.Roll == d2.Roll)
+            {
+                return true;
+            }
+            else if (choice == "2" && d1.Roll != d2.Roll)
+            {
+                return true;
+            }
+            else if (choice == "3" && (d1.Roll + d2.Roll) % 2 == 0)
+            {
+                return true;
+            }
+            else if (choice == "4" && (d1.Roll + d2.Roll) % 2 != 0)
+            {
+                return true;
+            }
+            else if (choice == "5" && d1.Roll + d2.Roll == 2)
+            {
+                return true;
+            }
+            else if (choice == "6" && d1.Roll + d2.Roll == 3)
+            {
+                return true;
+            }
+            else if (choice == "7" && d1.Roll + d2.Roll == 7)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         public static void CreateBox(int width, int height, int x, int y, ConsoleColor color)
