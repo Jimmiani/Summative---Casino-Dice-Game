@@ -74,6 +74,7 @@ namespace Part_6___Loops_Assignment
         public int Roll
         {
             get { return _roll; }
+            set { _roll = value; }
         }
         public int Sides
         {
@@ -175,7 +176,7 @@ namespace Part_6___Loops_Assignment
                 Console.WriteLine("'-------'");
             }
         }
-        public void DrawRoll(int x, int y, ConsoleColor color)
+        public void DrawRoll(int x, int y, ConsoleColor color, int sleep)
         {
             if (_roll == 1)
             {
@@ -183,12 +184,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|       |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|   O   |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|       |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -198,12 +203,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O     |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|       |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|     O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -213,12 +222,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O     |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|   O   |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|     O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -228,12 +241,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|       |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -243,12 +260,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("|   O   |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -258,12 +279,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -273,12 +298,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -288,12 +317,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O   O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }
@@ -303,12 +336,16 @@ namespace Part_6___Loops_Assignment
                 Console.SetCursorPosition(x, y); y++;
                 Console.WriteLine(".-------.");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("| O O O |");
                 Console.SetCursorPosition(x, y); y++;
+                Thread.Sleep(sleep);
                 Console.WriteLine("'-------'");
                 Console.ResetColor();
             }

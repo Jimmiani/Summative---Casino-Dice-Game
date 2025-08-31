@@ -1,12 +1,16 @@
-﻿namespace Summative___Casino_Dice_Game
+﻿using Part_6___Loops_Assignment;
+
+namespace Summative___Casino_Dice_Game
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            double cash = 10;
+            double cash = 10, betAmount = 0;
             bool done = false;
             string choice = "";
+            Die d1 = new Die(6);
+            Die d2 = new Die(6);
             Console.SetWindowSize(150, 40);
 
 
@@ -53,7 +57,7 @@
             winningCasino.Add(new string("The dice seem to like you... for now."));
             winningCasino.Add(new string("You're winning... the house hates that."));
             winningCasino.Add(new string("You've cheated fate... or has fate chosen to let you?"));
-            winningCasino.Add(new string("The Devil smiles... but not kindly. Fortune favors you -- for now."));
+            winningCasino.Add(new string("The Devil smiles... but not kindly. Fortune favours you -- for now."));
 
             //---------------------------
 
@@ -70,6 +74,8 @@
 
             string enterBet = "Seven paths, some lead to fortune... others to none. Choose your fate.";
             string betUnderline = "----------------------------------------------------------------------";
+            string afterBet1 = "Very well... the wager is set. Shall we see if luck lights your path,";
+            string afterBet2 = "or snuffs it out?";
 
             //---------------------------
 
@@ -99,6 +105,9 @@
                 {
                     while (true)
                     {
+                        d1.RollDie();
+                        d2.RollDie();
+                        y = 4;
                         ConsoleColor casinoColor = ConsoleColor.DarkGray;
                         if (cash == 100)
                         {
@@ -113,22 +122,92 @@
                             casinoColor = ConsoleColor.Yellow;
                         }
                         CreateBox(142, 35, 4, 2, casinoColor);
-                        CustomText(cashText, 128 - cash.ToString().Length, 4, ConsoleColor.Green);
+                        CustomText(cashText, 128 - cash.ToString().Length, y, ConsoleColor.Green);
                         if (cash == 100)
                         {
-                            CustomText(neutralCasino, 8, 4, casinoColor, true);
+                            CustomText(neutralCasino, 8, y, casinoColor, true);
                         }
                         else if (cash < 100)
                         {
-                            CustomText(losingCasino, 8, 4, casinoColor, true);
+                            CustomText(losingCasino, 8, y, casinoColor, true);
                         }
                         else if (cash > 100)
                         {
-                            CustomText(winningCasino, 8, 4, casinoColor, true);
+                            CustomText(winningCasino, 8, y, casinoColor, true);
                         }
-                        CustomText(enterBet, 8, 7, casinoColor);
-                        CustomText(betUnderline, 8, 8, casinoColor);
-                        CustomText(casinoBets, 8, 11, casinoColor, false);
+                        y += 3;
+                        CustomText(enterBet, 8, y, casinoColor); y++;
+                        CustomText(betUnderline, 8, y, casinoColor); y += 3;
+                        CustomText(casinoBets, 8, y, casinoColor, false); y += 15;
+                        CustomText(new string("Enter your choice here (1 - 7): "), 8, y, casinoColor);
+                        Console.ForegroundColor = casinoColor;
+                        Console.SetCursorPosition(40, y);
+                        choice = Console.ReadLine();
+                        while (choice != "1" && choice != "2" && choice != "3" && choice != "4" && choice != "5" && choice != "6" && choice != "7")
+                        {
+                            if (y > 26)
+                            {
+                                y--;
+                                CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
+                            }
+                            y++;
+                            Console.ForegroundColor = casinoColor;
+                            Console.SetCursorPosition(8, y);
+                            Console.Write("Invalid Input. Try again: ");
+                            choice = Console.ReadLine();
+                        }
+                        y += 2;
+                        CustomText(new string("Enter your bet here: $"), 8, y, casinoColor);
+                        Console.ForegroundColor = casinoColor;
+                        Console.SetCursorPosition(30, y);
+                        while (!double.TryParse(Console.ReadLine(), out betAmount))
+                        {
+                            if (y > 29)
+                            {
+                                y--;
+                                CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
+                            }
+                            y++;
+                            Console.ForegroundColor = casinoColor;
+                            Console.SetCursorPosition(8, y);
+                            Console.Write("Invalid Input. Try again: $");
+                        }
+                        while (betAmount > cash || betAmount < 1)
+                        {
+                            if (y > 29)
+                            {
+                                y--;
+                                CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
+                            }
+                            y++;
+                            Console.ForegroundColor = casinoColor;
+                            Console.SetCursorPosition(8, y);
+                            Console.Write("Bet amount can't be placed. Enter a valid number: $");
+                            while (!double.TryParse(Console.ReadLine(), out betAmount))
+                            {
+                                if (y > 29)
+                                {
+                                    y--;
+                                    CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
+                                }
+                                y++;
+                                Console.ForegroundColor = casinoColor;
+                                Console.SetCursorPosition(8, y);
+                                Console.Write("Invalid Input. Try again: $");
+                            }
+                        }
+                        y += 3;
+                        Console.ResetColor();
+                        CustomText(afterBet1, 8, y, casinoColor, 45); y++;
+                        CustomText(afterBet2, 8, y, casinoColor, 45);
+                        Thread.Sleep(700);
+                        CreateBox(33, 8, 95, 11, casinoColor);
+                        Thread.Sleep(500);
+                        d1.DrawRoll(100, 13, casinoColor, 300);
+                        Thread.Sleep(500);
+                        d2.DrawRoll(114, 13, casinoColor, 300);
+                        //LosingDice(100, 13, 500, d1, d2);
+                        WinningDice(100, 13, 140, d1, d2);
                         Console.ReadLine();
                     }
                 }
@@ -203,6 +282,17 @@
             Console.WriteLine(text);
             Console.ResetColor();
         }
+        public static void CustomText(string text, int x, int y, ConsoleColor color, int sleep)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.ForegroundColor = color;
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(sleep);
+            }
+            Console.ResetColor();
+        }
         public static void CustomText(List<string> text, int x, int y, ConsoleColor color, bool sleep)
         {
             Random generator = new Random();
@@ -248,6 +338,20 @@
             Console.WriteLine(@"|_______/ |________/    \_/    |______/|________/ \______/        \______/ |__/  |__/ \______/ |______/|__/  \__/ \______/ |__/");
             Console.ResetColor();
         }
+        public static void LosingDice(int x, int y, int sleep, Die d1, Die d2)
+        {
+            Thread.Sleep(1000);
+            d1.DrawRoll(x, y, ConsoleColor.DarkMagenta, 0);
+            d2.DrawRoll(x + 14, y, ConsoleColor.DarkMagenta, 0);
+            Thread.Sleep(1000);
+            for (int i = 0; i < 5; i++)
+            {
+                Console.SetCursorPosition(x, y);
+                Console.WriteLine("                        ");
+                y++;
+                Thread.Sleep(sleep);
+            }
+        }
         public static void Rules()
         {
             int y = 2;
@@ -259,7 +363,7 @@
             instructions.Add(new string("The possible outcomes you can bet on are listed in the table below."));
             instructions.Add(new string(""));
             instructions.Add(new string("If you bet on the correct outcome, you'll win the amount of money according to the following table. If you lose, you lose your bet."));
-            instructions.Add(new string("After you bet your money, you'll see two die appear on screen and what they landed on."));
+            instructions.Add(new string("After you bet your money on your predicted outcome, you'll see two die appear on screen and what they landed on."));
             instructions.Add(new string("You'll then be informed on whether you won or lost the bet, and receive an updated balance."));
 
 
@@ -267,7 +371,7 @@
             CentreText(intro, y); y++;
             CentreText(underline, y); y += 2;
             CentreText(instructions, y); y += instructions.Count + 2;
-            CreateBox(100, 20, 25, y, ConsoleColor.White); y += 2;
+            CreateBox(100, 20, 26, y, ConsoleColor.White); y += 2;
             Console.SetCursorPosition(30, y); y += 2;
             Console.WriteLine("Doubles:      You win DOUBLE your bet. For example, if you bet $10, you get $20 back.");
             Console.SetCursorPosition(30, y); y += 2;
@@ -284,10 +388,31 @@
             Console.WriteLine("Sum of 3:     You win FOUR TIMES your bet. For example, if you bet $10 you get $40 back.");
             Console.SetCursorPosition(30, y); y++;
             Console.WriteLine("Please note: if you guess correctly, you keep the money you bet along with the money you won.");
-            Console.SetCursorPosition(30, y); y += 4;
+            Console.SetCursorPosition(30, y); y++;
             Console.WriteLine("If you correctly guessed 'Doubles' and bet $10 and had $100 in cash, you'll end up with $120.");
+            Console.SetCursorPosition(33, y); y += 4;
+            Console.WriteLine("Also, you CANNOT bet less than one dollar, or more money than the cash you have on you.");
             CentreText(leave, y);
             Console.ReadLine();
+        }
+        public static void WinningDice(int x, int y, int sleep, Die d1, Die d2)
+        {
+            Thread.Sleep(1000);
+            for (int i = 0; i < 21; i++)
+            {
+                Console.SetCursorPosition(x, y);
+                if (i % 2 == 0)
+                {
+                    d1.DrawRoll(x, y, ConsoleColor.Green, 0);
+                    d2.DrawRoll(x + 14, y, ConsoleColor.Green, 0);
+                }
+                else
+                {
+                    d1.DrawRoll(x, y, ConsoleColor.White, 0);
+                    d2.DrawRoll(x + 14, y, ConsoleColor.White, 0);
+                }
+                    Thread.Sleep(sleep);
+            }
         }
     }
 }
