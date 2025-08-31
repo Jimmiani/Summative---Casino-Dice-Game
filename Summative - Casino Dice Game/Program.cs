@@ -11,6 +11,7 @@ namespace Summative___Casino_Dice_Game
             string choice = "";
             Die d1 = new Die(6);
             Die d2 = new Die(6);
+            Console.CursorVisible = false;
             Console.SetWindowSize(150, 40);
 
 
