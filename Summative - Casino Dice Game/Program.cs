@@ -82,6 +82,7 @@ namespace Summative___Casino_Dice_Game
 
             while (!done)
             {
+                Console.CursorVisible = false;
                 int y = 2;
                 cashText = $"Your cash: {cash.ToString("C")}";
                 Console.Clear();
@@ -93,6 +94,7 @@ namespace Summative___Casino_Dice_Game
                 CentreText(underline, y); y += 2;
                 CentreText(options, y); y += options.Count + 1;
                 Console.SetCursorPosition(57, y);
+                Console.CursorVisible = true;
                 Console.Write("Enter in your choice here (1 - 3): ");
                 choice = Console.ReadLine().Trim();
                 while (choice != "1" && choice != "2" && choice != "3")
@@ -102,10 +104,12 @@ namespace Summative___Casino_Dice_Game
                     Console.Write("Invalid Input. Try again: ");
                     choice = Console.ReadLine();
                 }
+                Console.CursorVisible = false;
                 if (choice == "1")
                 {
                     while (true)
                     {
+                        Console.CursorVisible = false;
                         d1.RollDie();
                         d2.RollDie();
                         y = 4;
@@ -141,6 +145,7 @@ namespace Summative___Casino_Dice_Game
                         CustomText(betUnderline, 8, y, casinoColor); y += 3;
                         CustomText(casinoBets, 8, y, casinoColor, false); y += 15;
                         CustomText(new string("Enter your choice here (1 - 7): "), 8, y, casinoColor);
+                        Console.CursorVisible = true;
                         Console.ForegroundColor = casinoColor;
                         Console.SetCursorPosition(40, y);
                         choice = Console.ReadLine();
@@ -197,6 +202,7 @@ namespace Summative___Casino_Dice_Game
                                 Console.Write("Invalid Input. Try again: $");
                             }
                         }
+                        Console.CursorVisible = false;
                         y += 3;
                         Console.ResetColor();
                         CustomText(afterBet1, 8, y, casinoColor, 45); y++;
