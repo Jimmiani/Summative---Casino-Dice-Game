@@ -8,7 +8,7 @@ namespace Summative___Casino_Dice_Game
         {
             double cash = 100, betAmount = 0;
             bool done = false, win = false, lost = false;
-            string choice = "";
+            string choice = "", betText;
             Die d1 = new Die(6);
             Die d2 = new Die(6);
             Console.CursorVisible = false;
@@ -34,13 +34,13 @@ namespace Summative___Casino_Dice_Game
             // Casino
 
             List <string> casinoBets = new List<string>();
-            casinoBets.Add(new string("Option 1: Doubles (2X Bet)"));
-            casinoBets.Add(new string("Option 2: Not Doubles (0.5X Bet)"));
-            casinoBets.Add(new string("Option 3: Even Sum (1X Bet)"));
-            casinoBets.Add(new string("Option 4: Odd Sum (1X Bet)"));
-            casinoBets.Add(new string("Option 5: Snake Eyes (10X Bet)"));
-            casinoBets.Add(new string("Option 6: Sum of 7 (2X Bet)"));
-            casinoBets.Add(new string("Option 7: Sum of 3 (5X Bet)"));
+            casinoBets.Add(new string("Option 1: Doubles (2X Bet, 16.67%)"));
+            casinoBets.Add(new string("Option 2: Not Doubles (0.5X Bet, 83.33%)"));
+            casinoBets.Add(new string("Option 3: Even Sum (1X Bet, 50%)"));
+            casinoBets.Add(new string("Option 4: Odd Sum (1X Bet, 50%)"));
+            casinoBets.Add(new string("Option 5: Snake Eyes (10X Bet, 2.78%)"));
+            casinoBets.Add(new string("Option 6: Sum of 7 (2X Bet, 16.67%)"));
+            casinoBets.Add(new string("Option 7: Sum of 3 (5X Bet, 5.56%)"));
 
             List<string> neutralCasino = new List<string>();
             neutralCasino.Add(new string("The dealer's ready. The dice are waiting."));
@@ -89,6 +89,7 @@ namespace Summative___Casino_Dice_Game
             string betUnderline = "----------------------------------------------------------------------";
             string afterBet1 = "Very well... the wager is set. Shall we see if luck lights your path,";
             string afterBet2 = "or snuffs it out?";
+            string playAgain = "Enter your choice here ('Q' to leave, 'R' to replay): ";
             string loss1 = "The Devil leans back, smiling. 'Your wallet is empty. Your luck... spent.'";
             string loss2 = "No coins left. No wager to make. No bets left to pray upon.";
             string loss3 = "The shadows laugh softly. You have nothing left to offer.";
@@ -99,6 +100,7 @@ namespace Summative___Casino_Dice_Game
 
             while (!done)
             {
+                Console.ResetColor();
                 Console.CursorVisible = false;
                 int y = 2;
                 cashText = $"Your cash: {cash.ToString("C")}";
@@ -126,8 +128,8 @@ namespace Summative___Casino_Dice_Game
                 {
                     while (true)
                     {
+                        Console.ResetColor();
                         Console.CursorVisible = false;
-                        
                         d1.RollDie();
                         d2.RollDie();
                         y = 4;
@@ -238,13 +240,15 @@ namespace Summative___Casino_Dice_Game
                         Console.CursorVisible = false;
                         y += 3;
                         Console.ResetColor();
-                        Console.SetCursorPosition(120, 4);
-                        Console.Write(new string(' ', 23));
+                        Console.SetCursorPosition(100, 4);
+                        Console.Write(new string(' ', 45));
                         cash -= betAmount;
+                        betText = $"(-{betAmount.ToString("C")})";
                         cashText = $"Your cash: {cash.ToString("C")}";
-                        CustomText(cashText, 143 - cashText.Length, 4, ConsoleColor.Green);
+                        CustomText(cashText, 143 - cashText.Length - betText.Length, 4, ConsoleColor.Green);
+                        CustomText(betText, 143 - betText.Length + 1, 4, ConsoleColor.Red);
                         CustomText(afterBet1, 8, y, casinoColor, 45); y++;
-                        CustomText(afterBet2, 8, y, casinoColor, 45);
+                        CustomText(afterBet2, 8, y, casinoColor, 45); y += 3;
                         Thread.Sleep(700);
                         CreateBox(33, 8, 95, 16, casinoColor);
                         Thread.Sleep(500);
@@ -255,20 +259,57 @@ namespace Summative___Casino_Dice_Game
                         if (win)
                         {
                             WinningDice(100, 18, 140, d1, d2);
-                            Console.SetCursorPosition(120, 4);
-                            Console.Write(new string(' ', 23));
+                            Console.SetCursorPosition(100, 4);
+                            Console.Write(new string(' ', 45));
                             cash += CalculateMoney(choice, betAmount);
-                            cashText = $"Your cash: {cash.ToString("C")}";
+                            cashText = $"Your cash: {cash.ToString("C")} (+{CalculateMoney(choice, betAmount).ToString("C")})";
                             CustomText(cashText, 143 - cashText.Length, 4, ConsoleColor.Green);
-                            CentreText(guessedCorrectly, 36, ConsoleColor.Yellow, 50);
+                            CentreText(guessedCorrectly, 35, ConsoleColor.Yellow, 50);
                         }
                         else
                         {
                             LosingDice(100, 18, 500, d1, d2);
-                            CentreText(guessedIncorrectly, 36, ConsoleColor.DarkRed, 50);
+                            if (cash > 0)
+                                CentreText(guessedIncorrectly, 35, ConsoleColor.DarkRed, 50);
+                            else
+                                CentreText(new string("Uh oh..."), 35, ConsoleColor.DarkRed, 100);
                         }
+                        y += 2;
                         
-                        Console.ReadLine();
+                        if (cash > 0)
+                        {
+                            Thread.Sleep(1000);
+                            CentreText(new string ("Play again, or quit?"), y, casinoColor, 0); y++;
+                            CentreText(playAgain, y, casinoColor, 0);
+                            Console.CursorVisible = true;
+                            Console.ForegroundColor = casinoColor;
+                            choice = Console.ReadLine().ToUpper().Trim();
+                            while (choice != "Q" && choice != "R")
+                            {
+                                if (y > 38)
+                                {
+                                    y--;
+                                    CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
+                                }
+                                y++;
+                                Console.ForegroundColor = casinoColor;
+                                Console.SetCursorPosition(62, y);
+                                Console.Write("Invalid Input. Try again: ");
+                                choice = Console.ReadLine().ToUpper().Trim();
+                            }
+                            if (choice == "Q")
+                            {
+                                break;
+                            }
+                            else if (choice == "R")
+                            {
+                                continue;
+                            }
+                        }
+                        else if (cash <= 0)
+                        {
+                            Thread.Sleep(1000);
+                        }
                     }
                 }
                 else if (choice == "2")
