@@ -7,7 +7,7 @@ namespace Summative___Casino_Dice_Game
         static void Main(string[] args)
         {
             double cash = 100, betAmount = 0;
-            bool done = false, win = false;
+            bool done = false, win = false, lost = false;
             string choice = "";
             Die d1 = new Die(6);
             Die d2 = new Die(6);
@@ -40,7 +40,7 @@ namespace Summative___Casino_Dice_Game
             casinoBets.Add(new string("Option 4: Odd Sum (1X Bet)"));
             casinoBets.Add(new string("Option 5: Snake Eyes (10X Bet)"));
             casinoBets.Add(new string("Option 6: Sum of 7 (2X Bet)"));
-            casinoBets.Add(new string("Option 7: Sum of 3 (4X Bet)"));
+            casinoBets.Add(new string("Option 7: Sum of 3 (5X Bet)"));
 
             List<string> neutralCasino = new List<string>();
             neutralCasino.Add(new string("The dealer's ready. The dice are waiting."));
@@ -52,7 +52,7 @@ namespace Summative___Casino_Dice_Game
             losingCasino.Add(new string("The dice smell fear. Care to feed them?"));
             losingCasino.Add(new string("You're running out of chips... and chances."));
             losingCasino.Add(new string("Running low? The house loves a desperate player."));
-            losingCasino.Add(new string("The house collects. It always does."));
+            losingCasino.Add(new string("The last rolls are always the loudest."));
 
             List<string> winningCasino = new List<string>();
             winningCasino.Add(new string("The dice seem to like you... for now."));
@@ -89,6 +89,11 @@ namespace Summative___Casino_Dice_Game
             string betUnderline = "----------------------------------------------------------------------";
             string afterBet1 = "Very well... the wager is set. Shall we see if luck lights your path,";
             string afterBet2 = "or snuffs it out?";
+            string loss1 = "The Devil leans back, smiling. 'Your wallet is empty. Your luck... spent.'";
+            string loss2 = "No coins left. No wager to make. No bets left to pray upon.";
+            string loss3 = "The shadows laugh softly. You have nothing left to offer.";
+            string loss4 = "The house collects. It always does.";
+            string loss5 = "Press 'ENTER' to return to the main menu.";
 
             //---------------------------
 
@@ -117,11 +122,12 @@ namespace Summative___Casino_Dice_Game
                     choice = Console.ReadLine();
                 }
                 Console.CursorVisible = false;
-                if (choice == "1")
+                if (choice == "1" && lost == false)
                 {
                     while (true)
                     {
                         Console.CursorVisible = false;
+                        
                         d1.RollDie();
                         d2.RollDie();
                         y = 4;
@@ -139,6 +145,21 @@ namespace Summative___Casino_Dice_Game
                             casinoColor = ConsoleColor.Yellow;
                         }
                         CreateBox(142, 40, 4, 2, casinoColor);
+                        if (cash <= 0)
+                        {
+                            CentreText(loss1, 6, ConsoleColor.Red, 50);
+                            Thread.Sleep(500);
+                            CentreText(loss2, 9, ConsoleColor.Red, 50);
+                            Thread.Sleep(500);
+                            CentreText(loss3, 12, ConsoleColor.Red, 50);
+                            Thread.Sleep(500);
+                            CentreText(loss4, 22, ConsoleColor.Red, 120);
+                            Thread.Sleep(1000);
+                            CentreText(loss5, 35);
+                            lost = true;
+                            Console.ReadLine();
+                            break;
+                        }
                         CustomText(cashText, 143 - cashText.Length, y, ConsoleColor.Green);
                         if (cash == 100)
                         {
@@ -190,7 +211,7 @@ namespace Summative___Casino_Dice_Game
                             Console.SetCursorPosition(8, y);
                             Console.Write("Invalid Input. Try again: $");
                         }
-                        while (betAmount > cash || betAmount < 1)
+                        while (betAmount > cash || betAmount <= 0)
                         {
                             if (y > 29)
                             {
@@ -288,7 +309,7 @@ namespace Summative___Casino_Dice_Game
             }
             else if (choice == "7")
             {
-                return bet + (bet * 7);
+                return bet + (bet * 5);
             }
             else
             {
@@ -299,6 +320,17 @@ namespace Summative___Casino_Dice_Game
         {
             Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, y);
             Console.WriteLine(text);
+        }
+        public static void CentreText(string text, int y, ConsoleColor color, int sleep)
+        {
+            Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, y);
+            Console.ForegroundColor = color;
+            foreach (char c in text)
+            {
+                Console.Write(c);
+                Thread.Sleep(sleep);
+            }
+            Console.ResetColor();
         }
         public static void CentreText(List<string> text, int y)
         {
@@ -344,11 +376,11 @@ namespace Summative___Casino_Dice_Game
             {
                 return true;
             }
-            else if (choice == "6" && d1.Roll + d2.Roll == 3)
+            else if (choice == "6" && d1.Roll + d2.Roll == 7)
             {
                 return true;
             }
-            else if (choice == "7" && d1.Roll + d2.Roll == 7)
+            else if (choice == "7" && d1.Roll + d2.Roll == 3)
             {
                 return true;
             }
@@ -507,13 +539,13 @@ namespace Summative___Casino_Dice_Game
             Console.SetCursorPosition(30, y); y += 2;
             Console.WriteLine("Sum of 7:     You win DOUBLE your bet. For example, if you bet $10 you get $20 back.");
             Console.SetCursorPosition(30, y); y += 3;
-            Console.WriteLine("Sum of 3:     You win FOUR TIMES your bet. For example, if you bet $10 you get $40 back.");
+            Console.WriteLine("Sum of 3:     You win FIVE TIMES your bet. For example, if you bet $10 you get $40 back.");
             Console.SetCursorPosition(30, y); y++;
             Console.WriteLine("Please note: if you guess correctly, you keep the money you bet along with the money you won.");
             Console.SetCursorPosition(30, y); y++;
             Console.WriteLine("If you correctly guessed 'Doubles' and bet $10 and had $100 in cash, you'll end up with $120.");
-            Console.SetCursorPosition(33, y); y += 4;
-            Console.WriteLine("Also, you CANNOT bet less than one dollar, or more money than the cash you have on you.");
+            Console.SetCursorPosition(38, y); y += 4;
+            Console.WriteLine("Also, you CANNOT bet $0 or less, or more money than the cash you have on you.");
             CentreText(leave, y);
             Console.ReadLine();
         }
