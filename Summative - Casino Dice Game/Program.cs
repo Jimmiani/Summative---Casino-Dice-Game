@@ -6,13 +6,13 @@ namespace Summative___Casino_Dice_Game
     {
         static void Main(string[] args)
         {
-            double cash = 100000, betAmount = 0;
+            double cash = 100, betAmount = 0;
             bool done = false, win = false;
             string choice = "";
             Die d1 = new Die(6);
             Die d2 = new Die(6);
             Console.CursorVisible = false;
-            Console.SetWindowSize(150, 40);
+            Console.SetWindowSize(150, 45);
 
 
             // Lists
@@ -59,6 +59,18 @@ namespace Summative___Casino_Dice_Game
             winningCasino.Add(new string("You're winning... the house hates that."));
             winningCasino.Add(new string("You've cheated fate... or has fate chosen to let you?"));
             winningCasino.Add(new string("The Devil smiles... but not kindly. Fortune favours you -- for now."));
+
+            List <string> guessedCorrectly = new List<string>();
+            guessedCorrectly.Add(new string("Hmm... the dice have spared you. The Devil doesn't like that."));
+            guessedCorrectly.Add(new string("Luck has chosen you this time. Don't expect it to stay loyal."));
+            guessedCorrectly.Add(new string("A small victory, nothing more. The darkness is patient."));
+            guessedCorrectly.Add(new string("You've slipped past fate's grasp... but only for a moment."));
+
+            List<string> guessedIncorrectly = new List<string>();
+            guessedIncorrectly.Add(new string("Ah... the dice have turned. The Devil smiles."));
+            guessedIncorrectly.Add(new string("Luck has abandoned you. The dark grows hungry."));
+            guessedIncorrectly.Add(new string("The dice do not lie. You were never meant to win."));
+            guessedIncorrectly.Add(new string("One step closer to the inevitable..."));
 
             //---------------------------
 
@@ -126,7 +138,7 @@ namespace Summative___Casino_Dice_Game
                         {
                             casinoColor = ConsoleColor.Yellow;
                         }
-                        CreateBox(142, 35, 4, 2, casinoColor);
+                        CreateBox(142, 40, 4, 2, casinoColor);
                         CustomText(cashText, 143 - cashText.Length, y, ConsoleColor.Green);
                         if (cash == 100)
                         {
@@ -213,26 +225,27 @@ namespace Summative___Casino_Dice_Game
                         CustomText(afterBet1, 8, y, casinoColor, 45); y++;
                         CustomText(afterBet2, 8, y, casinoColor, 45);
                         Thread.Sleep(700);
-                        CreateBox(33, 8, 95, 11, casinoColor);
+                        CreateBox(33, 8, 95, 16, casinoColor);
                         Thread.Sleep(500);
-                        d1.DrawRoll(100, 13, casinoColor, 300);
+                        d1.DrawRoll(100, 18, casinoColor, 300);
                         Thread.Sleep(500);
-                        d2.DrawRoll(114, 13, casinoColor, 300);
+                        d2.DrawRoll(114, 18, casinoColor, 300);
                         win = CheckBet(d1, d2, choice);
                         if (win)
                         {
-                            WinningDice(100, 13, 140, d1, d2);
+                            WinningDice(100, 18, 140, d1, d2);
                             Console.SetCursorPosition(120, 4);
                             Console.Write(new string(' ', 23));
-                            cash = CalculateMoney(choice, betAmount);
+                            cash += CalculateMoney(choice, betAmount);
                             cashText = $"Your cash: {cash.ToString("C")}";
                             CustomText(cashText, 143 - cashText.Length, 4, ConsoleColor.Green);
+                            CentreText(guessedCorrectly, 36, ConsoleColor.Yellow, 50);
                         }
                         else
                         {
-                            LosingDice(100, 13, 500, d1, d2);
+                            LosingDice(100, 18, 500, d1, d2);
+                            CentreText(guessedIncorrectly, 36, ConsoleColor.DarkRed, 50);
                         }
-                        
                         
                         Console.ReadLine();
                     }
@@ -295,6 +308,19 @@ namespace Summative___Casino_Dice_Game
                 Console.WriteLine(text[i]);
                 y++;
             }
+        }
+        public static void CentreText(List<string> text, int y, ConsoleColor color, int sleep)
+        {
+            Random generator = new Random();
+            int x = generator.Next(1, text.Count);
+            Console.SetCursorPosition((Console.WindowWidth - text[x].Length) / 2, y);
+            Console.ForegroundColor = color;
+            foreach (char c in text[x])
+            {
+                Console.Write(c);
+                Thread.Sleep(sleep);
+            }
+            Console.ResetColor();
         }
         public static bool CheckBet(Die d1, Die d2, string choice)
         {
@@ -467,7 +493,7 @@ namespace Summative___Casino_Dice_Game
             CentreText(intro, y); y++;
             CentreText(underline, y); y += 2;
             CentreText(instructions, y); y += instructions.Count + 2;
-            CreateBox(100, 20, 26, y, ConsoleColor.White); y += 2;
+            CreateBox(100, 21, 26, y, ConsoleColor.White); y += 2;
             Console.SetCursorPosition(30, y); y += 2;
             Console.WriteLine("Doubles:      You win DOUBLE your bet. For example, if you bet $10, you get $20 back.");
             Console.SetCursorPosition(30, y); y += 2;
