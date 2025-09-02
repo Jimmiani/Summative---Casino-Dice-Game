@@ -385,7 +385,7 @@ namespace Summative___Casino_Dice_Game
         public static void CentreText(List<string> text, int y, ConsoleColor color, int sleep)
         {
             Random generator = new Random();
-            int x = generator.Next(1, text.Count);
+            int x = generator.Next(0, text.Count);
             Console.SetCursorPosition((Console.WindowWidth - text[x].Length) / 2, y);
             Console.ForegroundColor = color;
             foreach (char c in text[x])
