@@ -1,4 +1,5 @@
 ﻿using Part_6___Loops_Assignment;
+using System.Diagnostics;
 
 namespace Summative___Casino_Dice_Game
 {
@@ -14,6 +15,8 @@ namespace Summative___Casino_Dice_Game
             Console.CursorVisible = false;
             Console.SetWindowSize(150, 45);
 
+            Debug.WriteLine(Console.WindowWidth);
+            Debug.WriteLine(Console.WindowHeight);
 
             // Lists
             //---------------------------
@@ -106,21 +109,19 @@ namespace Summative___Casino_Dice_Game
                 cashText = $"Your cash: {cash.ToString("C")}";
                 Console.Clear();
                 CentreText(introText, y); y += 2;
-                IntroText(y, ConsoleColor.DarkRed); y += 10;    
+                IntroText(y, ConsoleColor.DarkRed); y += 10;
                 CentreText(cashText, y); y++;
                 CentreText(underline, y); y += 2;
                 CentreText(instructions, y); y += instructions.Count + 1;
                 CentreText(underline, y); y += 2;
                 CentreText(options, y); y += options.Count + 1;
-                Console.SetCursorPosition(57, y);
                 Console.CursorVisible = true;
-                Console.Write("Enter in your choice here (1 - 3): ");
+                CentreText("Enter in your choice here (1 - 3): ", y, true);
                 choice = Console.ReadLine().Trim();
                 while (choice != "1" && choice != "2" && choice != "3")
                 {
                     y++;
-                    Console.SetCursorPosition(61, y);
-                    Console.Write("Invalid Input. Try again: ");
+                    CentreText("Invalid Input. Try again: ", y, true);
                     choice = Console.ReadLine();
                 }
                 Console.CursorVisible = false;
@@ -357,10 +358,18 @@ namespace Summative___Casino_Dice_Game
                 return 0;
             }
         }
-        public static void CentreText(string text, int y)
+        public static void CentreText(string text, int y, bool write = false)
         {
-            Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, y);
-            Console.WriteLine(text);
+            if (!write)
+            {
+                Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, y);
+                Console.WriteLine(text);
+            }
+            else
+            {
+                Console.SetCursorPosition((Console.WindowWidth - text.Length) / 2, y);
+                Console.Write(text);
+            }
         }
         public static void CentreText(string text, int y, ConsoleColor color, int sleep)
         {
@@ -514,23 +523,15 @@ namespace Summative___Casino_Dice_Game
         }
         public static void IntroText(int y, ConsoleColor color)
         {
-            Console.ForegroundColor = color;
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@" /$$$$$$$  /$$$$$$$$ /$$    /$$ /$$$$$$ /$$ /$$    /$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$  /$$");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$__  $$| $$_____/| $$   | $$|_  $$_/| $$| $/   /$$__  $$       /$$__  $$ /$$__  $$ /$$__  $$|_  $$_/| $$$ | $$ /$$__  $$| $$");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$  \ $$| $$      | $$   | $$  | $$  | $$|_/   | $$  \__/      | $$  \__/| $$  \ $$| $$  \__/  | $$  | $$$$| $$| $$  \ $$| $$");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$  | $$| $$$$$   |  $$ / $$/  | $$  | $$      |  $$$$$$       | $$      | $$$$$$$$|  $$$$$$   | $$  | $$ $$ $$| $$  | $$| $$");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$  | $$| $$__/    \  $$ $$/   | $$  | $$       \____  $$      | $$      | $$__  $$ \____  $$  | $$  | $$  $$$$| $$  | $$|__/");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$  | $$| $$        \  $$$/    | $$  | $$       /$$  \ $$      | $$    $$| $$  | $$ /$$  \ $$  | $$  | $$\  $$$| $$  | $$    ");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"| $$$$$$$/| $$$$$$$$   \  $/    /$$$$$$| $$$$$$$$|  $$$$$$/      |  $$$$$$/| $$  | $$|  $$$$$$/ /$$$$$$| $$ \  $$|  $$$$$$/ /$$");
-            Console.SetCursorPosition(12, y); y++;
-            Console.WriteLine(@"|_______/ |________/    \_/    |______/|________/ \______/        \______/ |__/  |__/ \______/ |______/|__/  \__/ \______/ |__/");
+            Console.ForegroundColor = color; y++;
+            CentreText(@" /$$$$$$$  /$$$$$$$$ /$$    /$$ /$$$$$$ /$$ /$$    /$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$  /$$$$$$ /$$   /$$  /$$$$$$  /$$", y); y++;
+            CentreText(@"| $$__  $$| $$_____/| $$   | $$|_  $$_/| $$| $/   /$$__  $$       /$$__  $$ /$$__  $$ /$$__  $$|_  $$_/| $$$ | $$ /$$__  $$| $$", y); y++;
+            CentreText(@"| $$  \ $$| $$      | $$   | $$  | $$  | $$|_/   | $$  \__/      | $$  \__/| $$  \ $$| $$  \__/  | $$  | $$$$| $$| $$  \ $$| $$", y); y++;
+            CentreText(@"| $$  | $$| $$$$$   |  $$ / $$/  | $$  | $$      |  $$$$$$       | $$      | $$$$$$$$|  $$$$$$   | $$  | $$ $$ $$| $$  | $$| $$", y); y++;
+            CentreText(@"| $$  | $$| $$__/    \  $$ $$/   | $$  | $$       \____  $$      | $$      | $$__  $$ \____  $$  | $$  | $$  $$$$| $$  | $$|__/", y); y++;
+            CentreText(@"| $$  | $$| $$        \  $$$/    | $$  | $$       /$$  \ $$      | $$    $$| $$  | $$ /$$  \ $$  | $$  | $$\  $$$| $$  | $$    ", y); y++;
+            CentreText(@"| $$$$$$$/| $$$$$$$$   \  $/    /$$$$$$| $$$$$$$$|  $$$$$$/      |  $$$$$$/| $$  | $$|  $$$$$$/ /$$$$$$| $$ \  $$|  $$$$$$/ /$$", y); y++;
+            CentreText(@"|_______/ |________/    \_/    |______/|________/ \______/        \______/ |__/  |__/ \______/ |______/|__/  \__/ \______/ |__/", y);
             Console.ResetColor();
         }
         public static void LosingDice(int x, int y, int sleep, Die d1, Die d2)
