@@ -15,9 +15,6 @@ namespace Summative___Casino_Dice_Game
             Console.CursorVisible = false;
             Console.SetWindowSize(150, 45);
 
-            Debug.WriteLine(Console.WindowWidth);
-            Debug.WriteLine(Console.WindowHeight);
-
             // Lists
             //---------------------------
 
