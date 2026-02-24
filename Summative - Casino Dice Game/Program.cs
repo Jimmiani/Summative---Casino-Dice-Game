@@ -211,7 +211,7 @@ namespace Summative___Casino_Dice_Game
                             Console.SetCursorPosition(8, y);
                             Console.Write("Invalid Input. Try again: $");
                         }
-                        while (betAmount > cash || betAmount <= 0)
+                        while (betAmount > cash || betAmount < 0.01)
                         {
                             if (y > 29)
                             {
@@ -284,15 +284,14 @@ namespace Summative___Casino_Dice_Game
                             choice = Console.ReadLine().ToUpper().Trim();
                             while (choice != "Q" && choice != "R")
                             {
-                                if (y > 38)
+                                if (y > 40)
                                 {
+                                    CustomText(new string("                                                                                                                                          |"), 8, y, casinoColor);
                                     y--;
-                                    CustomText(new string("                                                                                                                                          |"), 8, y + 1, casinoColor);
                                 }
                                 y++;
                                 Console.ForegroundColor = casinoColor;
-                                Console.SetCursorPosition(62, y);
-                                Console.Write("Invalid Input. Try again: ");
+                                CentreText("Invalid Input. Try again: ", y, true);
                                 choice = Console.ReadLine().ToUpper().Trim();
                             }
                             if (choice == "Q")
